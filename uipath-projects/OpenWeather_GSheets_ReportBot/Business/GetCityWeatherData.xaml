@@ -1,7 +1,7 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="GetCityWeatherData" this:GetCityWeatherData.in_CityName="XYZ" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_ApiKey" Type="InArgument(x:String)" />
-    <x:Property Name="out_WeatherData" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_WeatherCity" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="out_ErrorMessage" Type="OutArgument(x:String)" />
     <x:Property Name="in_CityName" Type="InArgument(x:String)" />
   </x:Members>
@@ -105,7 +105,7 @@
       <AssemblyReference>System.Linq.Async</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GetCityWeatherData" sap:VirtualizedContainerService.HintSize="893.2,1165.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GetCityWeatherData" sap:VirtualizedContainerService.HintSize="909.2,1165.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="JsonString" />
       <Variable x:TypeArguments="njl:JObject" Name="JsonObject" />
@@ -202,7 +202,7 @@
           </sap:WorkflowViewStateService.ViewState>
           <Assign sap:VirtualizedContainerService.HintSize="478.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_3">
             <Assign.To>
-              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_WeatherData]</OutArgument>
+              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_WeatherCity]</OutArgument>
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object)]</InArgument>
@@ -213,7 +213,7 @@
               <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
                   <ui:AssignOperation.To>
-                    <OutArgument x:TypeArguments="x:Object">[out_WeatherData("city")]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Object">[out_WeatherCity("city")]</OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:Object">[in_CityName]</InArgument>
@@ -221,7 +221,7 @@
                 </ui:AssignOperation>
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
                   <ui:AssignOperation.To>
-                    <OutArgument x:TypeArguments="x:Object">[out_WeatherData("temperature")]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Object">[out_WeatherCity("temperature")]</OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:Object">[JsonObject("main")("temp")]</InArgument>
@@ -229,7 +229,7 @@
                 </ui:AssignOperation>
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
                   <ui:AssignOperation.To>
-                    <OutArgument x:TypeArguments="x:Object">[out_WeatherData("humidity")]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Object">[out_WeatherCity("humidity")]</OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:Object">[JsonObject("main")("humidity")]</InArgument>
@@ -237,7 +237,7 @@
                 </ui:AssignOperation>
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
                   <ui:AssignOperation.To>
-                    <OutArgument x:TypeArguments="x:Object">[out_WeatherData("tempMin")]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Object">[out_WeatherCity("tempMin")]</OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:Object">[JsonObject("main")("temp_min")]</InArgument>
@@ -245,7 +245,7 @@
                 </ui:AssignOperation>
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
                   <ui:AssignOperation.To>
-                    <OutArgument x:TypeArguments="x:Object">[out_WeatherData("tempMax")]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Object">[out_WeatherCity("tempMax")]</OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:Object">[JsonObject("main")("temp_max")]</InArgument>
