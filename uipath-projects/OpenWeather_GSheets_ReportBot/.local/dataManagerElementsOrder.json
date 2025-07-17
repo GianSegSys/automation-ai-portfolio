@@ -28,7 +28,7 @@
       "Path": "Framework/Process.xaml",
       "SortBy": 0,
       "VariablesSectionElementsOrder": [
-        "WeatherData&Sequence_1",
+        "WeatherCity&Sequence_1",
         "ErrorMessage&Sequence_1"
       ],
       "ArgumentsSectionElementsOrder": null,
@@ -70,13 +70,29 @@
     {
       "Path": "Main.xaml",
       "SortBy": 0,
-      "VariablesSectionElementsOrder": null,
+      "VariablesSectionElementsOrder": [],
       "ArgumentsSectionElementsOrder": null,
       "ConstantsSectionElementsOrder": null,
       "AddedNamespaces": null
     },
     {
       "Path": "Framework/InitAllApplications.xaml",
+      "SortBy": 0,
+      "VariablesSectionElementsOrder": null,
+      "ArgumentsSectionElementsOrder": null,
+      "ConstantsSectionElementsOrder": null,
+      "AddedNamespaces": null
+    },
+    {
+      "Path": "Framework/SetTransactionStatus.xaml",
+      "SortBy": 0,
+      "VariablesSectionElementsOrder": null,
+      "ArgumentsSectionElementsOrder": null,
+      "ConstantsSectionElementsOrder": null,
+      "AddedNamespaces": null
+    },
+    {
+      "Path": "Framework/KillAllProcesses.xaml",
       "SortBy": 0,
       "VariablesSectionElementsOrder": null,
       "ArgumentsSectionElementsOrder": null,
