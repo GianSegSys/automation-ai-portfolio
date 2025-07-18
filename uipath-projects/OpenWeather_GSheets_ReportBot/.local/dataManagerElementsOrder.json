@@ -98,6 +98,16 @@
       "ArgumentsSectionElementsOrder": null,
       "ConstantsSectionElementsOrder": null,
       "AddedNamespaces": null
+    },
+    {
+      "Path": "Validation/ValidateInputCities.xaml",
+      "SortBy": 0,
+      "VariablesSectionElementsOrder": [
+        "ErrorData&Sequence_1"
+      ],
+      "ArgumentsSectionElementsOrder": null,
+      "ConstantsSectionElementsOrder": null,
+      "AddedNamespaces": null
     }
   ]
 }
