@@ -45,9 +45,8 @@ docker compose up -d
 
 📌 Folder Summary
 
-File/Folder:			Purpose:
-rss-summarizer-discord.json	Exported n8n flow
-docker-compose.yml		Sets up n8n + Ollama
-.env				Secure environment variables
-prompts/summarizer.txt		Prompt template for LLM
-docs/				Architecture + screenshots
+- rss-summarizer-discord.json -> Exported n8n flow
+- docker-compose.yml -> Sets up n8n + Ollama
+- .env -> Secure environment variables
+- prompts/summarizer.txt -> Prompt template for LLM
+- docs/ -> Architecture + screenshots
