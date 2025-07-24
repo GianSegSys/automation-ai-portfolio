@@ -6,12 +6,12 @@ This self-hosted automation uses n8n and Ollama to summarize new articles from a
 
 🧩 Key Features
 
-✅ Checks internet connectivity (with 3 retries, 10 min apart) before proceeding.
-📰 Fetches the latest articles from an RSS feed.
-🧠 Summarizes content using local LLM via Ollama.
-💬 Publishes summaries to a Discord channel via webhook.
-📧 Sends an email confirmation with Gmail after successful post.
-📦 Fully containerized with Docker and docker-compose.
+- Checks internet connectivity (with 3 retries, 10 min apart) before proceeding.
+- Fetches the latest articles from an RSS feed.
+- Summarizes content using local LLM via Ollama.
+- Publishes summaries to a Discord channel via webhook.
+- Sends an email confirmation with Gmail after successful post.
+- Fully containerized with Docker and docker-compose.
 
 ⚙️ Technologies Used
 
@@ -25,23 +25,23 @@ This self-hosted automation uses n8n and Ollama to summarize new articles from a
 
 🛠 Setup Instructions
 
-# Clone the repo
+- Clone the repo
 git clone https://github.com/GianSegSys/automation-ai-portfolio.git
 cd automation-ai-portfolio/n8n-workflows/rss-summarizer-discord
 
-# Run containers
+- Run containers
 docker compose up -d
 
 🧰 Environment Configuration
 
 .env should include:
 
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
-RSS_FEED_URL=https://www.bleepingcomputer.com/feed/
-GMAIL_USER=your@gmail.com
-GMAIL_PASS=yourapppassword
-EMAIL_RECIPIENT=admin@example.com
-OLLAMA_MODEL=llama3
+- DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
+- RSS_FEED_URL=https://www.bleepingcomputer.com/feed/
+- GMAIL_USER=your@gmail.com
+- GMAIL_PASS=yourapppassword
+- EMAIL_RECIPIENT=admin@example.com
+- OLLAMA_MODEL=llama3
 
 📌 Folder Summary
 
