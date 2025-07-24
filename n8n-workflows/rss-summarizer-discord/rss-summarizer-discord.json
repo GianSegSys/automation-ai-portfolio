@@ -1,0 +1,454 @@
+{
+  "name": "rss-summarizer-discord",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtMinute": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        64
+      ],
+      "id": "5c2c5d12-6f00-4c89-9f4a-70d530b2ddfd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.bleepingcomputer.com/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        48
+      ],
+      "id": "60c9757a-fdf2-4f27-9075-74bfe3c838b5",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "maxItems": 2
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        480,
+        48
+      ],
+      "id": "7adf0025-9730-4d98-a7f1-aa337dc614b4",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "command": "ping 1.1.1.1 -c 3"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        64
+      ],
+      "id": "e65e89bc-7b60-4034-988d-7f54a67ced17",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Hello, can you summarize this in just two sentences:  {{ $json.content }} but only provide me the summary and don't include something like: \"Here is a two-sentence summary\" at the beginning.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        704,
+        48
+      ],
+      "id": "a1f357df-4bc1-4318-af92-0a3acfa4ff37",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "llama3:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        704,
+        256
+      ],
+      "id": "73ece8c4-701c-486d-80ef-77a1f0686db0",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "GSmQVjoqnWbg8KJB",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14fc091f-8c38-41f5-8b0b-5568988101c7",
+              "name": "Attempts",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        64
+      ],
+      "id": "62cf5e0c-a538-4e61-9f07-0e3698ac1d91",
+      "name": "Set Attempts"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9b031eac-7e08-4ced-8bd0-23be9b5b5850",
+              "name": "={{ $('Set Attempts').item.json.Attempts }}",
+              "value": "={{ $('Set Attempts').item.json.Attempts + 1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        304
+      ],
+      "id": "f8274e72-6efd-4657-b4a5-d1c866547420",
+      "name": "Increase Attempts"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "208e763f-5da0-4191-851b-6950054e102a",
+              "leftValue": "={{ $json.exitCode }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        64
+      ],
+      "id": "9bedf0a0-ca94-4e80-9151-7263e450cb00",
+      "name": "Check Internet"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc916c80-98be-4dbd-b126-0636ea82d65a",
+              "leftValue": "={{ $('Set Attempts').item.json.Attempts}}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        304
+      ],
+      "id": "ca43640d-b3d1-4d5d-a92f-a7a27ac83f8b",
+      "name": "Check #Attempts"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "={{ $('Limit').item.json.creator }}\n{{ $('Limit').item.json.title }}\n{{ $json.text }}\n{{ $('Limit').item.json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        912,
+        320
+      ],
+      "id": "7e387ee8-c849-4597-a919-88d63225f6c1",
+      "name": "Post in Discord",
+      "webhookId": "b972bdf1-789b-4c84-8c03-edb56d525b44",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "CCLkl8nsd7VZJyYE",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        544
+      ],
+      "id": "1751d310-9984-4602-97be-1939ee9c0176",
+      "name": "Wait 10 mins",
+      "webhookId": "633742b9-8e48-4866-82e9-01756dbb68fd"
+    },
+    {
+      "parameters": {
+        "sendTo": "gsegoviaq@gmail.com",
+        "subject": "Notification Error",
+        "message": "There was an error!!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        368,
+        304
+      ],
+      "id": "38a70ec4-b70f-4db4-9c02-8ccafeafaa10",
+      "name": "Error Email",
+      "webhookId": "8e589fd0-de5e-4858-b047-8d20ced15060",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EvJIohUgmfPSFIQz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "gsegoviaq@gmail.com",
+        "subject": "Notification OK",
+        "message": "Successful posting on my Discord channel!!!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        560
+      ],
+      "id": "14e2fa6d-76ba-4043-96d6-575a66b4d78b",
+      "name": "Successful Email",
+      "webhookId": "8e589fd0-de5e-4858-b047-8d20ced15060",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EvJIohUgmfPSFIQz",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Check Internet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Post in Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Attempts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Attempts": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increase Attempts": {
+      "main": [
+        [
+          {
+            "node": "Check #Attempts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Internet": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Increase Attempts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check #Attempts": {
+      "main": [
+        [
+          {
+            "node": "Error Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 10 mins",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 10 mins": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post in Discord": {
+      "main": [
+        [
+          {
+            "node": "Successful Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "56e72b57-639c-4462-81ce-8917a2a79640",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8f7d75f8578bc96d4d6657d9cadf601ec395c87f3889933dd26cc55d87b81ef"
+  },
+  "id": "KVxborqEhI0jfuHT",
+  "tags": []
+}
